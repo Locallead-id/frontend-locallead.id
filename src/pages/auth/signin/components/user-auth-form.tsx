@@ -1,12 +1,5 @@
 import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useRouter } from "@/routes/hooks";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -14,12 +7,12 @@ import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
+import axios from "@/lib/axios";
 
 const formSchema = z.object({
-  id: z.string().min(3, { message: "Id must be at least 3 characters" }),
-  password: z
-    .string()
-    .min(6, { message: "Password must be at least 6 characters" }),
+  // Changed Validation for email validation
+  email: z.string().email({ message: "Please enter a valid email" }).min(3, { message: "Email must be at least 3 characters" }),
+  password: z.string().min(6, { message: "Password must be at least 6 characters" }),
 });
 
 type UserFormValue = z.infer<typeof formSchema>;
@@ -28,11 +21,11 @@ export default function UserAuthForm() {
   const [showPassword, setShowPassword] = useState(false);
 
   const router = useRouter();
-  const [loading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const defaultValues = {
-    id: "jeje",
-    password: "123456",
+    email: "",
+    password: "",
   };
 
   const form = useForm<UserFormValue>({
@@ -41,30 +34,32 @@ export default function UserAuthForm() {
   });
 
   const onSubmit = async (data: UserFormValue) => {
-    console.log("data", data);
-    router.push("/dashboard");
+    try {
+      setLoading(true);
+      console.log("data", data);
+      const response = await axios({ url: "/auth/login", method: "POST", data: { email: data.email, password: data.password } });
+      localStorage.setItem("access_token", response.data.access_token);
+      router.push("/dashboard");
+    } catch (err) {
+      // Add error handling
+      console.log(err.response);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <>
       <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className='w-full space-y-2'
-        >
+        <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-2">
           <FormField
             control={form.control}
-            name='id'
+            name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Id</FormLabel>
+                <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input
-                    type='text'
-                    placeholder='Enter your id...'
-                    disabled={loading}
-                    {...field}
-                  />
+                  <Input type="email" placeholder="Enter your email..." disabled={loading} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -73,22 +68,14 @@ export default function UserAuthForm() {
 
           <FormField
             control={form.control}
-            name='password'
+            name="password"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Password</FormLabel>
                 <FormControl>
-                  <div className='relative'>
-                    <Input
-                      type={showPassword ? "text" : "password"}
-                      placeholder='••••••••'
-                      {...field}
-                    />
-                    <button
-                      type='button'
-                      onClick={() => setShowPassword(!showPassword)}
-                      className='absolute right-2 top-2 text-sm'
-                    >
+                  <div className="relative">
+                    <Input type={showPassword ? "text" : "password"} placeholder="••••••••" {...field} />
+                    <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-2 top-2 text-sm">
                       {showPassword ? <EyeOff /> : <Eye />}
                     </button>
                   </div>
@@ -98,7 +85,7 @@ export default function UserAuthForm() {
             )}
           />
 
-          <Button disabled={loading} className='ml-auto w-full' type='submit'>
+          <Button disabled={loading} className="ml-auto w-full" type="submit">
             Login
           </Button>
         </form>

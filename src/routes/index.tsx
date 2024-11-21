@@ -12,7 +12,7 @@ import NotFound from "@/pages/not-found";
 import ProfilePage from "@/pages/profile";
 import TestPage from "@/pages/test";
 import { Suspense } from "react";
-import { Navigate, Outlet, useRoutes } from "react-router-dom";
+import { Navigate, Outlet, redirect, useRoutes } from "react-router-dom";
 
 export default function AppRouter() {
   const dashboardRoutes = [
@@ -25,6 +25,13 @@ export default function AppRouter() {
           </Suspense>
         </DashboardLayout>
       ),
+      loader: () => {
+        if (!localStorage.getItem("access_token")) {
+          return redirect("/login");
+        } else {
+          return null;
+        }
+      },
       children: [
         {
           element: <DashboardPage />,
@@ -55,10 +62,21 @@ export default function AppRouter() {
       path: "/",
       element: <LandingPage />,
       index: true,
+      loader: () => {
+        if (localStorage.getItem("access_token")) {
+          return redirect("/dashboard");
+        } else {
+          return null;
+        }
+      },
     },
     {
       path: "/login",
       element: <SignInPage />,
+      loader: () => {
+        if (localStorage.getItem("access_token")) return redirect("/dashboard");
+        return null;
+      },
     },
     {
       path: "/dashboard/:assessment/test/:id",
@@ -70,10 +88,11 @@ export default function AppRouter() {
     },
     {
       path: "*",
-      element: <Navigate to='/404' replace />,
+      element: <Navigate to="/404" replace />,
     },
   ];
 
+  // should change to use createBrowserRouter instead so loader can work
   const routes = useRoutes([...dashboardRoutes, ...publicRoutes]);
 
   return routes;

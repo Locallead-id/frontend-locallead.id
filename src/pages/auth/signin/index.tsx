@@ -53,7 +53,7 @@ export default function SignInPage() {
           <div className='flex flex-col space-y-2 text-center'>
             <h1 className='text-2xl font-semibold tracking-tight'>Login</h1>
             <p className='text-sm text-muted-foreground'>
-              Enter your ID and Password below to log in to your account
+              Enter your Email and Password below to log in to your account
             </p>
           </div>
           <UserAuthForm />
