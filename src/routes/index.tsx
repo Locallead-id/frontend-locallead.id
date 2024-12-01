@@ -51,7 +51,7 @@ export default function AppRouter() {
           element: <LeadershipPage />,
         },
         {
-          path: "/dashboard/:assessment",
+          path: "/dashboard/:assessmentId",
           element: <AssessmentPage />,
         },
         {
@@ -88,7 +88,7 @@ export default function AppRouter() {
       },
     },
     {
-      path: "/dashboard/:assessment/test/:id",
+      path: "/dashboard/:assessmentId/test/:sectionId",
       element: <TestPage />,
     },
     {
