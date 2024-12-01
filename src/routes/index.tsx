@@ -1,10 +1,11 @@
 import DashboardLayout from "@/components/layout/dashboard-layout";
+import AdminDashboardPage from "@/pages/admin/dashboard";
 import AssessmentPage from "@/pages/assessment";
 import SignInPage from "@/pages/auth/signin";
 import CareerSuccessPotentialPage from "@/pages/career-success-potential";
 import ComparisonPage from "@/pages/comparison";
 import DashboardPage from "@/pages/dashboard";
-import EmployeePage from "@/pages/employee";
+import AdminUserPage from "@/pages/employee";
 import EmployeeDetailPage from "@/pages/employee-detail";
 import LandingPage from "@/pages/landing";
 import LeadershipPage from "@/pages/leadership";
@@ -36,6 +37,14 @@ export default function AppRouter() {
         {
           element: <DashboardPage />,
           index: true,
+        },
+        {
+          path: "/dashboard/admin",
+          element: <AdminDashboardPage />,
+        },
+        {
+          path: "/dashboard/admin/user",
+          element: <AdminUserPage />,
         },
         {
           path: "/dashboard/leadership",
@@ -88,7 +97,7 @@ export default function AppRouter() {
     },
     {
       path: "*",
-      element: <Navigate to="/404" replace />,
+      element: <Navigate to='/404' replace />,
     },
   ];
 

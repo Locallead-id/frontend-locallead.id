@@ -5,7 +5,7 @@ import { useSearchParams } from "react-router-dom";
 import { DataTableSkeleton } from "@/components/shared/data-table-skeleton";
 import { Breadcrumbs } from "@/components/shared/breadcrumbs";
 
-export default function EmployeePage() {
+export default function AdminUserPage() {
   const [searchParams] = useSearchParams();
   const page = Number(searchParams.get("page") || 1);
   const pageLimit = Number(searchParams.get("limit") || 10);

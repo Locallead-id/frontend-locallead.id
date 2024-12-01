@@ -39,7 +39,7 @@ export default function UserAuthForm() {
       console.log("data", data);
       const response = await axios({ url: "/auth/login", method: "POST", data: { email: data.email, password: data.password } });
       localStorage.setItem("access_token", response.data.access_token);
-      router.push("/dashboard");
+      router.push("/dashboard/admin");
     } catch (err) {
       // Add error handling
       console.log(err.response);

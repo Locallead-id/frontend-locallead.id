@@ -32,11 +32,17 @@ export default function DashboardNav({
     return null;
   }
 
+   const filteredItems = items.filter((item) => item.user === "Admin");
+
+   if (!filteredItems.length) {
+     return null;
+   }
+
   return (
     <div className='flex flex-col h-full'>
       <nav className='grid items-start gap-2 flex-grow'>
         <TooltipProvider>
-          {items.map((item, index) => {
+          {filteredItems.map((item, index) => {
             const Icon = Icons[item.icon || "arrowRight"];
             return (
               item.href && (
