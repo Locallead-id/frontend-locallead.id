@@ -14,8 +14,7 @@ export default function AdminDashboardPage() {
             {/* <TeamSwitcher />
             <MainNav className='mx-6' /> */}
             <div className='ml-auto flex items-center space-x-4'>
-              <Search />
-              <UserNav />
+
             </div>
           </div>
         </div>
@@ -28,7 +27,7 @@ export default function AdminDashboardPage() {
             </div>
           </div>
           <Tabs defaultValue='overview' className='space-y-4'>
-            <TabsList>
+            {/* <TabsList>
               <TabsTrigger value='overview'>Overview</TabsTrigger>
               <TabsTrigger value='analytics' disabled>
                 Analytics
@@ -39,7 +38,7 @@ export default function AdminDashboardPage() {
               <TabsTrigger value='notifications' disabled>
                 Notifications
               </TabsTrigger>
-            </TabsList>
+            </TabsList> */}
             <TabsContent value='overview' className='space-y-4'>
               <div className='grid gap-4 md:grid-cols-2 lg:grid-cols-4'>
                 <Card>

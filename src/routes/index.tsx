@@ -1,5 +1,6 @@
 import DashboardLayout from "@/components/layout/dashboard-layout";
 import AdminDashboardPage from "@/pages/admin/dashboard";
+import AdminModulePage from "@/pages/admin/dashboard/modules";
 import AssessmentPage from "@/pages/assessment";
 import SignInPage from "@/pages/auth/signin";
 import CareerSuccessPotentialPage from "@/pages/career-success-potential";
@@ -45,6 +46,10 @@ export default function AppRouter() {
         {
           path: "/dashboard/admin/user",
           element: <AdminUserPage />,
+        },
+        {
+          path: "/dashboard/admin/modules",
+          element: <AdminModulePage />,
         },
         {
           path: "/dashboard/leadership",

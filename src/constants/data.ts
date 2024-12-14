@@ -36,6 +36,13 @@ export const navItems: NavItem[] = [
     label: "Dashboard",
     user: "Admin",
   },
+  {
+    title: "Module",
+    href: "/dashboard/admin/modules", // Should have /admin/dashboard/modules
+    icon: "Users", //Change this
+    label: "Dashboard",
+    user: "Admin",
+  },
 ];
 
 export const assesments = [
@@ -43,8 +50,7 @@ export const assesments = [
     id: 1,
     tabs: "Welcome",
     completed: true,
-    description:
-      "This study attempts to identify the determining factors of leadership behavior...",
+    description: "This study attempts to identify the determining factors of leadership behavior...",
   },
   {
     id: 2,
@@ -127,14 +133,4 @@ export type Employee = {
   profile_picture?: string | null; // Profile picture can be a string (URL) or null (if no picture)
 };
 
-export const departments = [
-  "Engineering",
-  "Sales",
-  "Marketing",
-  "Human Resources",
-  "Finance",
-  "Legal",
-  "Operations",
-  "Customer Support",
-  "IT",
-];
+export const departments = ["Engineering", "Sales", "Marketing", "Human Resources", "Finance", "Legal", "Operations", "Customer Support", "IT"];

@@ -6,25 +6,13 @@ import { CellAction } from "./cell-action";
 export const columns: ColumnDef<Employee>[] = [
   {
     id: "select",
-    header: ({ table }) => (
-      <Checkbox
-        checked={table.getIsAllPageRowsSelected()}
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label='Select all'
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label='Select row'
-      />
-    ),
+    header: ({ table }) => <Checkbox checked={table.getIsAllPageRowsSelected()} onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)} aria-label="Select all" />,
+    cell: ({ row }) => <Checkbox checked={row.getIsSelected()} onCheckedChange={(value) => row.toggleSelected(!!value)} aria-label="Select row" />,
     enableSorting: false,
     enableHiding: false,
   },
   {
-    accessorKey: "first_name",
+    accessorKey: "profile.fullName",
     header: "NAME",
   },
   // {
@@ -36,12 +24,23 @@ export const columns: ColumnDef<Employee>[] = [
     header: "EMAIL",
   },
   {
-    accessorKey: "job",
-    header: "POSITION",
+    accessorKey: "profile.isPremium",
+    header: "STATUS",
+    cell: ({ row }) => {
+      return <div className="">{row.getValue("role") === "ADMIN" ? "Admin" : row.getValue("profile.isPremium") ? "Premium" : "Basic"}</div>;
+    },
   },
   {
-    accessorKey: "gender",
-    header: "GENDER",
+    accessorKey: "total_results",
+    header: "FINISHED",
+    // Not Done
+    cell: ({ row }) => {
+      const totalResults = row.getValue("total_results") ?? 0;
+      const totalAssessments = row.getValue("total_assessments") ?? 0;
+
+      // return <div> {`${totalResults} / ${totalAssessments}`}</div>;
+      return <div> {`${totalResults}`}</div>;
+    },
   },
   {
     id: "actions",

@@ -34,7 +34,14 @@ const AssessmentCard = ({ assessment, aspectRatio = "portrait", width, height, p
   return (
     <div className={cn("space-y-3 bg-slate-200 dark:bg-slate-800 p-3 rounded-xl", className)} {...props}>
       <div className="overflow-hidden rounded-md">
-        <img src={assessment.imageUrl} alt={assessment.name} width={width} height={height} className={cn("h-auto w-auto object-fill transition-all hover:scale-105", aspectRatio === "portrait" ? "aspect-[3/4]" : "aspect-[4/2.5]")} />
+        <img
+          src={"https://fastly.picsum.photos/id/362/3000/3000.jpg?hmac=FzR-S7qhyfuNrXXdAIS3Uh221FSOgyUkyCVw7EmpTmw"}
+          alt={assessment.name}
+          width={width}
+          height={height}
+          className={cn("h-auto w-auto object-fill transition-all hover:scale-105", aspectRatio === "portrait" ? "aspect-[3/4]" : "aspect-[4/2.5]")}
+        />
+        {/* <img src={assessment.imageUrl} alt={assessment.name} width={width} height={height} className={cn("h-auto w-auto object-fill transition-all hover:scale-105", aspectRatio === "portrait" ? "aspect-[3/4]" : "aspect-[4/2.5]")} /> */}
       </div>
 
       <div className="space-y-3 text-sm pb-4">
