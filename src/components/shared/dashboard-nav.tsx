@@ -32,11 +32,13 @@ export default function DashboardNav({
     return null;
   }
 
-   const filteredItems = items.filter((item) => item.user === "Admin");
+  const role = localStorage.getItem("role_user");
+  const filteredItems = items.filter((item) => item.user === role);
+  console.log(role);
 
-   if (!filteredItems.length) {
-     return null;
-   }
+  if (!filteredItems.length) {
+    return null;
+  }
 
   return (
     <div className='flex flex-col h-full'>

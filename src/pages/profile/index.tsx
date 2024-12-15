@@ -1,7 +1,7 @@
 import { Breadcrumbs } from "@/components/shared/breadcrumbs";
 import PageHead from "@/components/shared/page-head";
-import axios from "@/lib/axios";
-import React, { useEffect, useState } from "react";
+import axios from "axios";
+import  { useEffect, useState } from "react";
 
 const ProfilePage = () => {
   const [profileData, setProfileData] = useState();

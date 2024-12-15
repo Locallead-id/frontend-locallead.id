@@ -39,10 +39,10 @@ export default function SignInPage() {
         <div className='relative z-20 mt-auto'>
           <blockquote className='space-y-2'>
             <p className='text-lg'>
-              &ldquo;Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-              sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-              Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat.&rdquo;
+              &ldquo;LocalLead merupakan sebuah portal informasi yang berisi
+              informasi dan hal-hal aplikatif yang berkaitan dengan pengembangan
+              kepemimpinan efektif di organisasi profit maupun non
+              profit.&rdquo;
             </p>
             <footer className='text-sm'>Jeje</footer>
           </blockquote>

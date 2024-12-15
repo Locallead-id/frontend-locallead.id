@@ -5,28 +5,46 @@ import AssessmentCard, { EmployeeAssessment } from "./components/assesment";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Check, ListCheck, Timer } from "lucide-react";
 import { useRouter } from "@/routes/hooks";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
-export const employeeAssessments: EmployeeAssessment[] = [
-  {
-    title: "The Leadership Behavior Description Questionnaire (LBDQ)",
-    description: "technical skills",
-    image:
-      "https://i.pinimg.com/736x/10/b6/03/10b6036d9dc7ebe236aed2d5e65b1e2a.jpg",
-    url: "LBDQ",
-    progress: 2,
-  },
-  {
-    title: "The Leadership Behavior Description Questionnaire (LBDQ)",
-    description: "technical skills",
-    image:
-      "https://i.pinimg.com/736x/43/a8/f3/43a8f35f1c56b7c9d63c0a8f8d0c14b0.jpg",
-    url: "LBDQ",
-    progress: 2,
-  },
-];
+// export const employeeAssessments: EmployeeAssessment[] = [
+//   {
+//     id: 1,
+//     title: "PCSS",
+//     description: "technical skills",
+//     image:
+//       "https://i.pinimg.com/736x/10/b6/03/10b6036d9dc7ebe236aed2d5e65b1e2a.jpg",
+//     url: "PCSS",
+//     progress: 1,
+//   },
+// ];
 
 const DashboardPage = () => {
   const router = useRouter();
+
+  const [assessments, setAssessments] = useState([]);
+
+  useEffect(() => {
+    const fetchAssessments = async () => {
+      const token = localStorage.getItem("access_token");
+      try {
+        const response = await axios.get(
+          "http://localhost:3000/api/assessments",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setAssessments(response.data.data);
+      } catch (error) {
+        console.error("Error fetching assessments:", error);
+      }
+    };
+
+    fetchAssessments();
+  }, []);
 
   return (
     <div className='overflow-auto h-full'>
@@ -49,7 +67,7 @@ const DashboardPage = () => {
               <Card className='bg-slate-100 dark:bg-slate-800'>
                 <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
                   <CardTitle className='text-sm font-medium'>
-                    Completion form
+                    Completion modul
                   </CardTitle>
                   <Check className='h-4 w-4 text-muted-foreground' />
                 </CardHeader>
@@ -72,30 +90,6 @@ const DashboardPage = () => {
               </Card>
               <Card className='bg-slate-100 dark:bg-slate-800'>
                 <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-                  <CardTitle className='text-sm font-medium'>Sales</CardTitle>
-                  <svg
-                    xmlns='http://www.w3.org/2000/svg'
-                    viewBox='0 0 24 24'
-                    fill='none'
-                    stroke='currentColor'
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    strokeWidth='2'
-                    className='h-4 w-4 text-muted-foreground'
-                  >
-                    <rect width='20' height='14' x='2' y='5' rx='2' />
-                    <path d='M2 10h20' />
-                  </svg>
-                </CardHeader>
-                <CardContent>
-                  <div className='text-2xl font-bold'>+12,234</div>
-                  <p className='text-xs text-muted-foreground'>
-                    +19% from last month
-                  </p>
-                </CardContent>
-              </Card>
-              <Card className='bg-slate-100 dark:bg-slate-800'>
-                <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
                   <CardTitle className='text-sm font-medium'>
                     Average Completion
                   </CardTitle>
@@ -111,18 +105,20 @@ const DashboardPage = () => {
             <div className='relative'>
               <ScrollArea>
                 <div className='flex space-x-4 pb-4'>
-                  {employeeAssessments.map((assessment) => (
+                  {assessments.map((assessment) => (
                     <AssessmentCard
                       onClick={() =>
-                        router.push(`/dashboard/${assessment.url}`)
+                        router.push(
+                          `/dashboard/PCSS/${assessment.id}`
+                        )
                       }
-                      key={assessment.image}
+                      key={assessment.imageUrl}
                       assessment={assessment}
                       className='w-[250px]'
                       aspectRatio='square'
                       width={200}
                       height={300}
-                      progressAssessment={assessment.progress}
+                      // progressAssessment={assessment.progress}
                     />
                   ))}
                 </div>

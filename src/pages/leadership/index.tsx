@@ -1,7 +1,7 @@
 import { Breadcrumbs } from "@/components/shared/breadcrumbs";
 import PageHead from "@/components/shared/page-head";
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
-import axios from "@/lib/axios";
+import axios from "axios";
 import { BriefcaseBusiness, Home } from "lucide-react";
 import { useEffect, useState } from "react";
 import { PolarAngleAxis, PolarGrid, Radar, RadarChart } from "recharts";

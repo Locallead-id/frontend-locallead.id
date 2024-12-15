@@ -3,11 +3,16 @@ import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
 
 export interface EmployeeAssessment {
-  title: string;
+  id: number;
+  name: string;
   description: string;
-  image: string;
-  url: string;
-  progress: number;
+  imageUrl: string;
+  duration: number;
+  userId: number;
+  price: number;
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
 }
 
 interface AssessmentCardProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -38,11 +43,17 @@ const AssessmentCard = ({
   }, []);
 
   return (
-    <div className={cn("space-y-3 bg-slate-200 dark:bg-slate-800 p-3 rounded-xl", className)} {...props}>
+    <div
+      className={cn(
+        "space-y-3 bg-slate-200 dark:bg-slate-800 p-3 rounded-xl",
+        className
+      )}
+      {...props}
+    >
       <div className='overflow-hidden rounded-md'>
         <img
-          src={assessment.image}
-          alt={assessment.title}
+          src={assessment.imageUrl}
+          alt={assessment.name}
           width={width}
           height={height}
           className={cn(
@@ -51,10 +62,10 @@ const AssessmentCard = ({
           )}
         />
       </div>
- 
+
       <div className='space-y-3 text-sm pb-4'>
         <Progress value={progress} className='w-full h-1' />
-        <h3 className='font-bold leading-none mt-3'>{assessment.title}</h3>
+        <h3 className='font-bold leading-none mt-3'>{assessment.name}</h3>
         <p className='text-xs font-medium text-muted-foreground'>
           {assessment.description}
         </p>
