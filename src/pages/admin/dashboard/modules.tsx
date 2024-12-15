@@ -1,6 +1,6 @@
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { useEffect, useState } from "react";
-import axios from "@/lib/axios";
+import axiosInstance from "@/lib/axiosInstance";
 import AssessmentCard from "@/pages/dashboard/components/assesment";
 import { Link } from "react-router-dom";
 import PageHead from "@/components/shared/page-head";
@@ -26,7 +26,7 @@ export default function AdminModulePage() {
   >([]);
 
   useEffect(() => {
-    axios("/admin/assessments", {
+    axiosInstance("/admin/assessments", {
       method: "GET",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("access_token")}`,

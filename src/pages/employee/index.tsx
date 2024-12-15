@@ -5,7 +5,7 @@ import { useSearchParams } from "react-router-dom";
 import { DataTableSkeleton } from "@/components/shared/data-table-skeleton";
 import { Breadcrumbs } from "@/components/shared/breadcrumbs";
 import { useEffect, useState } from "react";
-import axios from "@/lib/axios";
+import axiosInstance from "@/lib/axiosInstance";
 
 export default function AdminUserPage() {
   const [searchParams] = useSearchParams();
@@ -20,7 +20,7 @@ export default function AdminUserPage() {
   // const totalUsers = data?.total_users; //1000
 
   useEffect(() => {
-    axios("/admin/users/", {
+    axiosInstance("/admin/users/", {
       method: "GET",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("access_token")}`,

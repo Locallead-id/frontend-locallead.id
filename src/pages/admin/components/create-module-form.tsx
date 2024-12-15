@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import axios from "@/lib/axios";
+import axiosInstance from "@/lib/axiosInstance";
 import { useNavigate } from "react-router-dom";
 import { Plus } from "lucide-react";
 
@@ -50,7 +50,7 @@ const ModuleCreateForm = ({ modalClose }: { modalClose: () => void }) => {
 
     if (values.image) formData.append("image", values.image);
 
-    axios("/admin/assessments", {
+    axiosInstance("/admin/assessments", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("access_token")}`,

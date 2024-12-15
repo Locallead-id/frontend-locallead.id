@@ -6,7 +6,7 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrig
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import axios from "@/lib/axios";
+import axiosInstance from "@/lib/axiosInstance";
 import { useNavigate } from "react-router-dom";
 
 const employeeFormSchema = z
@@ -41,7 +41,7 @@ const EmployeeCreateForm = ({ modalClose }: { modalClose: () => void }) => {
   const onSubmit = (values: EmployeeFormSchemaType) => {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
-    axios("/admin/users", {
+    axiosInstance("/admin/users", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("access_token")}`,

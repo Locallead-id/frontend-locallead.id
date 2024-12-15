@@ -2,7 +2,7 @@ import { Breadcrumbs } from "@/components/shared/breadcrumbs";
 import PageHead from "@/components/shared/page-head";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import axios from "@/lib/axios";
+import axiosInstance from "@/lib/axiosInstance";
 import { useRouter } from "@/routes/hooks";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -67,7 +67,7 @@ export default function AdminUpdateAssessmentPage() {
   const router = useRouter();
 
   useEffect(() => {
-    axios(`/assessments/${moduleId}`, {
+    axiosInstance(`/assessments/${moduleId}`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("access_token")}`,
@@ -168,7 +168,7 @@ export default function AdminUpdateAssessmentPage() {
     }
 
     Promise.all([
-      axios(`/admin/assessments/${moduleId}`, {
+      axiosInstance(`/admin/assessments/${moduleId}`, {
         method: "PUT",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
@@ -177,7 +177,7 @@ export default function AdminUpdateAssessmentPage() {
           questions: updatedQuestions,
         },
       }),
-      axios(`/admin/assessments/${moduleId}`, {
+      axiosInstance(`/admin/assessments/${moduleId}`, {
         method: "PATCH",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,

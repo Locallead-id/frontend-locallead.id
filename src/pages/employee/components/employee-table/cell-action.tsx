@@ -5,7 +5,7 @@ import { Employee } from "@/constants/data";
 import { Edit, MoreHorizontal, Trash, UserRoundSearch } from "lucide-react";
 import { useRouter } from "@/routes/hooks";
 import { useState } from "react";
-import axios from "@/lib/axios";
+import axiosInstance from "@/lib/axiosInstance";
 
 interface CellActionProps {
   data: Employee;
@@ -17,7 +17,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const router = useRouter();
 
   const onConfirm = async () => {
-    axios(`/admin/users/${data.id}`, {
+    axiosInstance(`/admin/users/${data.id}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("access_token")}`,
