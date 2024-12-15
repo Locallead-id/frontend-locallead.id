@@ -27,7 +27,7 @@ export const columns: ColumnDef<Employee>[] = [
     accessorKey: "profile.isPremium",
     header: "STATUS",
     cell: ({ row }) => {
-      return <div className="">{row.getValue("role") === "ADMIN" ? "Admin" : row.getValue("profile.isPremium") ? "Premium" : "Basic"}</div>;
+      return <div className="">{row.getValue("profile.isPremium") ? "Premium" : "Basic"}</div>;
     },
   },
   {

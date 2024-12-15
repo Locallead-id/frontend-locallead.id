@@ -1,6 +1,8 @@
 import DashboardLayout from "@/components/layout/dashboard-layout";
 import AdminDashboardPage from "@/pages/admin/dashboard";
 import AdminModulePage from "@/pages/admin/dashboard/modules";
+import AdminUpdateAssessmentPage from "@/pages/admin/dashboard/update-module";
+import AdminUpdateUserPage from "@/pages/admin/dashboard/update-user";
 import AssessmentPage from "@/pages/assessment";
 import SignInPage from "@/pages/auth/signin";
 import CareerSuccessPotentialPage from "@/pages/career-success-potential";
@@ -48,16 +50,20 @@ export default function AppRouter() {
           element: <AdminUserPage />,
         },
         {
+          path: "/dashboard/admin/users/:userId",
+          element: <AdminUpdateUserPage />,
+        },
+        {
           path: "/dashboard/admin/modules",
           element: <AdminModulePage />,
         },
         {
-          path: "/dashboard/leadership",
-          element: <LeadershipPage />,
+          path: "/dashboard/admin/modules/:moduleId/",
+          element: <AdminUpdateAssessmentPage />,
         },
         {
-          path: "/dashboard/:assessmentId",
-          element: <AssessmentPage />,
+          path: "/dashboard/leadership",
+          element: <LeadershipPage />,
         },
         {
           path: "/dashboard/career",
@@ -66,6 +72,10 @@ export default function AppRouter() {
         {
           path: "/dashboard/profile",
           element: <ProfilePage />,
+        },
+        {
+          path: "/dashboard/:assessmentId",
+          element: <AssessmentPage />,
         },
       ],
     },
@@ -102,7 +112,7 @@ export default function AppRouter() {
     },
     {
       path: "*",
-      element: <Navigate to='/404' replace />,
+      element: <Navigate to="/404" replace />,
     },
   ];
 

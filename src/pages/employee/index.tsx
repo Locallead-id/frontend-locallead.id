@@ -21,6 +21,7 @@ export default function AdminUserPage() {
 
   useEffect(() => {
     axios("/admin/users/", {
+      method: "GET",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("access_token")}`,
       },
@@ -39,17 +40,13 @@ export default function AdminUserPage() {
       </div>
     );
   }
-
-  {
-    console.log(users);
-  }
   return (
     <div className="p-4 md:p-8">
       <PageHead title="Employee Management" />
       <Breadcrumbs
         items={[
-          { title: "Dashboard", link: "/" },
-          { title: "Employee", link: "/employee" },
+          { title: "Dashboard", link: "/dashboard/admin" },
+          { title: "User", link: "/dashboard/admin/employee" },
         ]}
       />
       <EmployeeTable users={users} page={page} totalUsers={totalUsers} pageCount={Math.ceil(totalUsers / pageLimit)} />

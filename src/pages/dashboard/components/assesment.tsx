@@ -32,22 +32,16 @@ const AssessmentCard = ({ assessment, aspectRatio = "portrait", width, height, p
   }, []);
 
   return (
-    <div className={cn("space-y-3 bg-slate-200 dark:bg-slate-800 p-3 rounded-xl", className)} {...props}>
+    <div className={cn("bg-slate-200 hover:bg-slate-400 dark:bg-slate-800 p-3 rounded-xl hover:text-white text-black", className)} {...props}>
       <div className="overflow-hidden rounded-md">
-        <img
-          src={"https://fastly.picsum.photos/id/362/3000/3000.jpg?hmac=FzR-S7qhyfuNrXXdAIS3Uh221FSOgyUkyCVw7EmpTmw"}
-          alt={assessment.name}
-          width={width}
-          height={height}
-          className={cn("h-auto w-auto object-fill transition-all hover:scale-105", aspectRatio === "portrait" ? "aspect-[3/4]" : "aspect-[4/2.5]")}
-        />
+        <img src={assessment.imageUrl} alt={assessment.name} width={width} height={height} className={cn("h-auto w-auto object-fill transition-all hover:scale-105", aspectRatio === "portrait" ? "aspect-[3/4]" : "aspect-[4/2.5]")} />
         {/* <img src={assessment.imageUrl} alt={assessment.name} width={width} height={height} className={cn("h-auto w-auto object-fill transition-all hover:scale-105", aspectRatio === "portrait" ? "aspect-[3/4]" : "aspect-[4/2.5]")} /> */}
       </div>
 
       <div className="space-y-3 text-sm pb-4">
         <Progress value={progress} className="w-full h-1" />
         <h3 className="font-bold leading-none mt-3">{assessment.name}</h3>
-        <p className="text-xs font-medium text-muted-foreground">{assessment.description}</p>
+        <p className="text-xs font-medium text-muted-foreground truncate">{assessment.description}</p>
       </div>
     </div>
   );

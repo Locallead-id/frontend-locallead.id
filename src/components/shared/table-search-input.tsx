@@ -3,11 +3,7 @@ import { Input } from "../ui/input";
 import { useDebounce } from "use-debounce";
 import { useSearchParams } from "react-router-dom";
 
-export default function TableSearchInput({
-  placeholder,
-}: {
-  placeholder?: string;
-}) {
+export default function TableSearchInput({ placeholder }: { placeholder?: string }) {
   const [searchParams, setSearchParams] = useSearchParams();
   const country = searchParams.get("search") || "";
   const [searchTerm, setSearchTerm] = React.useState(country);
@@ -15,11 +11,7 @@ export default function TableSearchInput({
   const [debouncedValue] = useDebounce(searchTerm, 1000);
   const handleSettingSearchParams = useCallback((newSearchValue: string) => {
     // Update the URL with the new search value
-    if (
-      newSearchValue === "" ||
-      newSearchValue === undefined ||
-      !newSearchValue
-    ) {
+    if (newSearchValue === "" || newSearchValue === undefined || !newSearchValue) {
       searchParams.delete("search");
       setSearchParams(searchParams);
       return;
@@ -34,12 +26,5 @@ export default function TableSearchInput({
   React.useEffect(() => {
     handleSettingSearchParams(debouncedValue);
   }, [debouncedValue, handleSettingSearchParams]);
-  return (
-    <Input
-      placeholder={placeholder || `Search country...`}
-      value={searchTerm}
-      onChange={(event) => setSearchTerm(event.target.value)}
-      className='w-full md:max-w-sm'
-    />
-  );
+  return <Input placeholder={placeholder || `Search country...`} value={searchTerm} onChange={(event) => setSearchTerm(event.target.value)} className="w-full md:max-w-sm lg:max-w-full" />;
 }

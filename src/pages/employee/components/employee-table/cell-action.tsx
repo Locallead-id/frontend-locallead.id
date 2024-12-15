@@ -1,16 +1,11 @@
 import { AlertModal } from "@/components/shared/alert-modal";
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Employee } from "@/constants/data";
 import { Edit, MoreHorizontal, Trash, UserRoundSearch } from "lucide-react";
 import { useRouter } from "@/routes/hooks";
 import { useState } from "react";
+import axios from "@/lib/axios";
 
 interface CellActionProps {
   data: Employee;
@@ -21,37 +16,36 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const [open, setOpen] = useState(false);
   const router = useRouter();
 
-  const onConfirm = async () => {};
+  const onConfirm = async () => {
+    axios(`/admin/users/${data.id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+      },
+    })
+      .then()
+      .catch((err) => console.log(err));
+
+    router.reload();
+  };
 
   return (
     <>
-      <AlertModal
-        isOpen={open}
-        onClose={() => setOpen(false)}
-        onConfirm={onConfirm}
-        loading={loading}
-      />
+      <AlertModal isOpen={open} onClose={() => setOpen(false)} onConfirm={onConfirm} loading={loading} />
       <DropdownMenu modal={false}>
         <DropdownMenuTrigger asChild>
-          <Button variant='ghost' className='h-8 w-8 p-0'>
-            <span className='sr-only'>Open menu</span>
-            <MoreHorizontal className='h-4 w-4' />
+          <Button variant="ghost" className="h-8 w-8 p-0">
+            <span className="sr-only">Open menu</span>
+            <MoreHorizontal className="h-4 w-4" />
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align='end'>
+        <DropdownMenuContent align="end">
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
-          <DropdownMenuItem
-            onClick={() => router.push(`/employee/${data.id}`)}
-          >
-            <UserRoundSearch className='mr-2 h-4 w-4' /> Detail
-          </DropdownMenuItem>
-          <DropdownMenuItem
-            onClick={() => router.push(`/employee/${data.id}`)}
-          >
-            <Edit className='mr-2 h-4 w-4' /> Update
+          <DropdownMenuItem onClick={() => router.push(`/dashboard/admin/users/${data.id}/`)}>
+            <UserRoundSearch className="mr-2 h-4 w-4" /> Detail
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => setOpen(true)}>
-            <Trash className='mr-2 h-4 w-4' /> Delete
+            <Trash className="mr-2 h-4 w-4" /> Delete
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
