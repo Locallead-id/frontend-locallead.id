@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
+/* eslint-disable @typescript-eslint/no-wrapper-object-types */
 import { AlertModal } from "@/components/shared/alert-modal";
 import { Breadcrumbs } from "@/components/shared/breadcrumbs";
 import PageHead from "@/components/shared/page-head";
@@ -5,34 +7,40 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useRouter } from "@/routes/hooks";
 import { useEffect, useState } from "react";
-import axios from "@/lib/axios";
 
 import { assesments } from "@/constants/data";
-import { useParams } from "react-router-dom";
+import { useAssessment } from "@/lib/assesment";
 
 const AssessmentPage = () => {
-  // const [activeTab, setActiveTab] = useState(assesments[0].tabs); // State untuk melacak tab yang aktif
-  // const [assessmentState, setAssessmentState] = useState(assesments);
   const [activeTab, setActiveTab] = useState(() => {
-    // Retrieve the last active tab from local storage
-    const savedActiveTab = localStorage.getItem("activeAssessmentTab");
-    return savedActiveTab ? Number(savedActiveTab) : assesments[0].id;
-  }); // State untuk melacak tab yang aktif
-  const [assessmentState, setAssessmentState] = useState(() => {
-    // Try to retrieve saved assessment state from local storage
-    const savedState = localStorage.getItem("assessmentState");
-    return savedState ? JSON.parse(savedState) : assesments;
+    // Ambil tab terakhir dari localStorage, jika ada
+    const lastIndex = parseInt(localStorage.getItem("activeTabIndex") || "0");
+    return assesments[lastIndex]?.tabs || assesments[0].tabs;
   });
 
-  const [assessmentData, setAssessmentData] = useState([]);
-  const { assessmentId } = useParams();
+  const [assessmentState, setAssessmentState] = useState(assesments);
 
   const router = useRouter();
   const [loading] = useState(false);
   const [open, setOpen] = useState(false);
 
+  const { assessment, getAssessment } = useAssessment();
+
+  useEffect(() => {
+    const assessmentId = 1; // Ganti dengan ID yang sesuai
+    getAssessment(assessmentId);
+  }, []);
+
+  useEffect(() => {
+    // Simpan tab aktif ke localStorage setiap kali berubah
+    const currentIndex = assessmentState.findIndex(
+      (assessment) => assessment.tabs === activeTab
+    );
+    localStorage.setItem("activeTabIndex", currentIndex.toString());
+  }, [activeTab]);
+
   const onConfirm = async (id: Number) => {
-    router.push(`/dashboard/${assessmentId}/test/${id}`);
+    router.push(`/dashboard/:assessment/test/${id}`);
   };
 
   const onSubmit = (id: number, type: string) => {
@@ -57,10 +65,9 @@ const AssessmentPage = () => {
       setActiveTab(updatedAssessments[nextIndex].id); // Pindah ke tab berikutnya
     }
 
+    // Arahkan ke `/dashboard/career` pada tab terakhir
     if (nextIndex === assessmentState.length) {
-      router.push("/dashboard");
-      localStorage.removeItem("activeAssessmentTab");
-      localStorage.removeItem("assessmentState");
+      router.push("/dashboard/career");
     }
   };
 
@@ -87,17 +94,21 @@ const AssessmentPage = () => {
 
   return (
     <>
-      <div className="p-4 md:p-8">
-        <PageHead title="Assessment LBDQ" />
+      <div className='p-4 md:p-8'>
+        <PageHead title='Assessment' />
         <Breadcrumbs
           items={[
             { title: "Dashboard", link: "/dashboard" },
-            { title: "LBDQ", link: "/lbdq" },
+            { title: "PCSS", link: "/" },
           ]}
         />
-        <div className="flex-1 space-y-4 pt-6">
-          <Tabs value={activeTab.toString()} onValueChange={(val) => setActiveTab(Number(val))} className="space-y-4">
-            <TabsList className="bg-slate-200 dark:bg-slate-800">
+        <div className='flex-1 space-y-4 pt-6'>
+          <Tabs
+            value={activeTab}
+            onValueChange={(value) => setActiveTab(value)}
+            className='space-y-4'
+          >
+            <TabsList className='bg-slate-200 dark:bg-slate-800'>
               {assessmentState.map((assessment) => (
                 <TabsTrigger key={assessment.id} value={assessment.id.toString()} disabled={!assessment.completed}>
                   {assessment.tabs}
@@ -108,51 +119,47 @@ const AssessmentPage = () => {
               <TabsContent key={assessment.id} value={assessment.id.toString()} className="space-y-4">
                 <div className="flex flex-col p-12">
                   <h2>{assessment.tabs}</h2>
-                  <p className="pt-4">
-                    {activeTab === 1
-                      ? `Welcome to assessment ${assessment.description}`
-                      : activeTab === 2
-                      ? `Informasi Umum\n
-
-Kuesioner ini terdiri dari 100 pertanyaan yang dibagi menjadi 4 bagian
-Setiap bagian berisi 25 pertanyaan
-Bacalah setiap pertanyaan dengan teliti sebelum menjawab\n\n
-
-Pilihan Jawaban\n
-Gunakan skala berikut untuk menjawab setiap pertanyaan:
-
-STS (Sangat Tidak Setuju): 1
-TS (Tidak Setuju): 2
-RR (Ragu-Ragu): 3
-S (Setuju): 4\n
-SS (Sangat Setuju): 5\n\n
-
-Cara Pengisian\n
-Jawab setiap pertanyaan dengan jujur dan sesuai dengan keadaan/perasaan Anda
-Pilih satu jawaban yang paling sesuai untuk setiap pertanyaan
-Pastikan tidak ada pertanyaan yang terlewatkan
-Jika Anda merasa ragu, pilih pilihan yang paling mendekati perasaan atau pengalaman Anda`
-                      : activeTab === 7
-                      ? "You have completed the assignemtn"
-                      : `you are going to fill section ${assessment.tabs}`}
-                  </p>
-                  <div className="flex justify-between items-center">
-                    {assessment.id !== 1 && assessment.id !== assesments.length ? (
-                      <Button onClick={() => onSubmit(assessment.id, "back")} className="font-bold">
+                  <p
+                    className='pt-4 text-justify'
+                    dangerouslySetInnerHTML={{
+                      __html: assessment.description.replace(/\n/g, "<br />"),
+                    }}
+                  ></p>
+                  <div className='flex justify-between items-center mt-8'>
+                    {assessment.id !== 1 ? (
+                      <Button
+                        onClick={() => onSubmit(assessment.id, "back")}
+                        className='font-bold'
+                      >
                         Back
                       </Button>
-                    ) : (
-                      ""
-                    )}
+                    ) : null}
                     <Button
                       onClick={() => {
-                        assessment.id > 2 && assessment.id !== assesments.length ? setOpen(true) : onSubmit(assessment.id, "next");
+                        if (assessment.id === assessmentState.length) {
+                          // Tab terakhir
+                          router.push("/dashboard/career");
+                        } else if (
+                          assessment.id > 2 &&
+                          assessment.id !== assesments.length
+                        ) {
+                          setOpen(true);
+                        } else {
+                          onSubmit(assessment.id, "next");
+                        }
                       }}
                       className="bg-rose-500 font-bold"
                     >
-                      Continue
+                      {assessment.id === assessmentState.length
+                        ? "Finish"
+                        : "Continue"}
                     </Button>
-                    <AlertModal isOpen={open} onClose={() => setOpen(false)} onConfirm={() => onConfirm(assessment.id - 2)} loading={loading} />
+                    <AlertModal
+                      isOpen={open}
+                      onClose={() => setOpen(false)}
+                      onConfirm={() => onConfirm(assessment.id - 2)}
+                      loading={loading}
+                    />
                   </div>
                 </div>
               </TabsContent>

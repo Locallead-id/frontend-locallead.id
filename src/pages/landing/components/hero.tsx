@@ -65,7 +65,7 @@ const Hero = () => {
             />
           )}
           <motion.img
-            src='https://artfiles.alphacoders.com/161/161273.jpeg'
+            src='https://raw.githubusercontent.com/RezaConz/Mocci/refs/heads/master/image%2040.png'
             width={220}
             alt='Noodle image'
             className='hidden md:block absolute h-72 w-72 object-cover md:max-w-none top-52 left-52'

@@ -66,6 +66,10 @@ export default function AppRouter() {
           element: <LeadershipPage />,
         },
         {
+          path: "/dashboard/:assessment/:id",
+          element: <AssessmentPage />,
+        },
+        {
           path: "/dashboard/career",
           element: <CareerSuccessPotentialPage />,
         },
