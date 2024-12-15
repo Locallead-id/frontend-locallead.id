@@ -60,7 +60,6 @@ const ModuleCreateForm = ({ modalClose }: { modalClose: () => void }) => {
     })
       .then((res) => res)
       .catch((err) => console.log(err));
-    console.log(formData);
     navigate("");
   };
 

@@ -27,21 +27,21 @@ export const navItems: NavItem[] = [
     href: "/dashboard/admin",
     icon: "Dashboard",
     label: "Dashboard",
-    user: "Admin",
+    user: "ADMIN",
   },
   {
     title: "User",
     href: "/dashboard/admin/user",
     icon: "Users",
     label: "Dashboard",
-    user: "Admin",
+    user: "ADMIN",
   },
   {
     title: "Module",
     href: "/dashboard/admin/modules", // Should have /admin/dashboard/modules
     icon: "Users", //Change this
     label: "Dashboard",
-    user: "Admin",
+    user: "ADMIN",
   },
 ];
 
@@ -79,28 +79,28 @@ export const BotNavItems: NavItem[] = [
     href: "/dashboard/profile",
     icon: "User",
     label: "Profile",
-    user: "User",
+    user: "USER",
   },
   {
     title: "Logout",
     href: "/",
     icon: "LogOut",
     label: "Logout",
-    user: "User",
+    user: "USER",
   },
   {
     title: "Profile",
     href: "/dashboard/profile",
     icon: "User",
     label: "Profile",
-    user: "Admin",
+    user: "ADMIN",
   },
   {
     title: "Logout",
     href: "/",
     icon: "LogOut",
     label: "Logout",
-    user: "Admin",
+    user: "ADMIN",
   },
 ];
 
