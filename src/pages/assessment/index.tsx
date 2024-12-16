@@ -33,9 +33,7 @@ const AssessmentPage = () => {
 
   useEffect(() => {
     // Simpan tab aktif ke localStorage setiap kali berubah
-    const currentIndex = assessmentState.findIndex(
-      (assessment) => assessment.tabs === activeTab
-    );
+    const currentIndex = assessmentState.findIndex((assessment) => assessment.tabs === activeTab);
     localStorage.setItem("activeTabIndex", currentIndex.toString());
   }, [activeTab]);
 
@@ -49,7 +47,7 @@ const AssessmentPage = () => {
     const prevIndex = assessmentState.findIndex((item) => item.id === id) - 1;
 
     if (type === "back" && prevIndex >= 0) {
-      setActiveTab(assessmentState[prevIndex].id); // Pindah ke tab sebelum
+      setActiveTab(assessmentState[prevIndex].tabs); // Pindah ke tab sebelum
     }
 
     if (type === "next" && nextIndex < assessmentState.length) {
@@ -61,8 +59,7 @@ const AssessmentPage = () => {
       });
 
       setAssessmentState(updatedAssessments);
-      // setActiveTab(updatedAssessments[nextIndex].tabs); // Pindah ke tab berikutnya
-      setActiveTab(updatedAssessments[nextIndex].id); // Pindah ke tab berikutnya
+      setActiveTab(updatedAssessments[nextIndex].tabs); // Pindah ke tab berikutnya
     }
 
     // Arahkan ke `/dashboard/career` pada tab terakhir
@@ -71,66 +68,38 @@ const AssessmentPage = () => {
     }
   };
 
-  useEffect(() => {
-    localStorage.setItem("activeAssessmentTab", activeTab.toString());
-  }, [activeTab]);
-
-  // Update local storage whenever assessment state changes
-  useEffect(() => {
-    localStorage.setItem("assessmentState", JSON.stringify(assessmentState));
-  }, [assessmentState]);
-
-  // Populate data from server
-  useEffect(() => {
-    axios(`/assessments/${assessmentId}`, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-      },
-    })
-      .then((res) => setAssessmentData(res.data.data))
-      .catch((err) => console.error(err));
-  }, []);
-
   return (
     <>
-      <div className='p-4 md:p-8'>
-        <PageHead title='Assessment' />
+      <div className="p-4 md:p-8">
+        <PageHead title="Assessment" />
         <Breadcrumbs
           items={[
             { title: "Dashboard", link: "/dashboard" },
             { title: "PCSS", link: "/" },
           ]}
         />
-        <div className='flex-1 space-y-4 pt-6'>
-          <Tabs
-            value={activeTab}
-            onValueChange={(value) => setActiveTab(value)}
-            className='space-y-4'
-          >
-            <TabsList className='bg-slate-200 dark:bg-slate-800'>
+        <div className="flex-1 space-y-4 pt-6">
+          <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value)} className="space-y-4">
+            <TabsList className="bg-slate-200 dark:bg-slate-800">
               {assessmentState.map((assessment) => (
-                <TabsTrigger key={assessment.id} value={assessment.id.toString()} disabled={!assessment.completed}>
+                <TabsTrigger key={assessment.id} value={assessment.tabs} disabled={!assessment.completed}>
                   {assessment.tabs}
                 </TabsTrigger>
               ))}
             </TabsList>
             {assessmentState.map((assessment) => (
-              <TabsContent key={assessment.id} value={assessment.id.toString()} className="space-y-4">
+              <TabsContent key={assessment.id} value={assessment.tabs} className="space-y-4">
                 <div className="flex flex-col p-12">
                   <h2>{assessment.tabs}</h2>
                   <p
-                    className='pt-4 text-justify'
+                    className="pt-4 text-justify"
                     dangerouslySetInnerHTML={{
                       __html: assessment.description.replace(/\n/g, "<br />"),
                     }}
                   ></p>
-                  <div className='flex justify-between items-center mt-8'>
+                  <div className="flex justify-between items-center mt-8">
                     {assessment.id !== 1 ? (
-                      <Button
-                        onClick={() => onSubmit(assessment.id, "back")}
-                        className='font-bold'
-                      >
+                      <Button onClick={() => onSubmit(assessment.id, "back")} className="font-bold">
                         Back
                       </Button>
                     ) : null}
@@ -139,10 +108,7 @@ const AssessmentPage = () => {
                         if (assessment.id === assessmentState.length) {
                           // Tab terakhir
                           router.push("/dashboard/career");
-                        } else if (
-                          assessment.id > 2 &&
-                          assessment.id !== assesments.length
-                        ) {
+                        } else if (assessment.id > 2 && assessment.id !== assesments.length) {
                           setOpen(true);
                         } else {
                           onSubmit(assessment.id, "next");
@@ -150,16 +116,9 @@ const AssessmentPage = () => {
                       }}
                       className="bg-rose-500 font-bold"
                     >
-                      {assessment.id === assessmentState.length
-                        ? "Finish"
-                        : "Continue"}
+                      {assessment.id === assessmentState.length ? "Finish" : "Continue"}
                     </Button>
-                    <AlertModal
-                      isOpen={open}
-                      onClose={() => setOpen(false)}
-                      onConfirm={() => onConfirm(assessment.id - 2)}
-                      loading={loading}
-                    />
+                    <AlertModal isOpen={open} onClose={() => setOpen(false)} onConfirm={() => onConfirm(assessment.id - 2)} loading={loading} />
                   </div>
                 </div>
               </TabsContent>
