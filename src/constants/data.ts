@@ -6,18 +6,42 @@ export const navItems: NavItem[] = [
     href: "/dashboard",
     icon: "Dashboard",
     label: "Dashboard",
+    user: "User",
   },
   {
     title: "Leadership",
     href: "/dashboard/leadership",
     icon: "BriefcaseBusiness",
     label: "Leadership",
+    user: "User",
   },
   {
     title: "Career Success Potential",
     href: "/dashboard/career",
     icon: "Rocket",
     label: "Career Success Potential",
+    user: "User",
+  },
+  {
+    title: "Dashboard",
+    href: "/dashboard/admin",
+    icon: "Dashboard",
+    label: "Dashboard",
+    user: "Admin",
+  },
+  {
+    title: "User",
+    href: "/dashboard/admin/user",
+    icon: "Users",
+    label: "Dashboard",
+    user: "Admin",
+  },
+  {
+    title: "Module",
+    href: "/dashboard/admin/modules", // Should have /admin/dashboard/modules
+    icon: "Users", //Change this
+    label: "Dashboard",
+    user: "Admin",
   },
 ];
 
@@ -26,8 +50,7 @@ export const assesments = [
     id: 1,
     tabs: "Welcome",
     completed: true,
-    description:
-      "This study attempts to identify the determining factors of leadership behavior...",
+    description: "This study attempts to identify the determining factors of leadership behavior...",
   },
   {
     id: 2,
@@ -73,12 +96,28 @@ export const BotNavItems: NavItem[] = [
     href: "/dashboard/profile",
     icon: "User",
     label: "Profile",
+    user: "User",
   },
   {
     title: "Logout",
     href: "/",
     icon: "LogOut",
     label: "Logout",
+    user: "User",
+  },
+  {
+    title: "Profile",
+    href: "/dashboard/profile",
+    icon: "User",
+    label: "Profile",
+    user: "Admin",
+  },
+  {
+    title: "Logout",
+    href: "/",
+    icon: "LogOut",
+    label: "Logout",
+    user: "Admin",
   },
 ];
 
@@ -94,14 +133,4 @@ export type Employee = {
   profile_picture?: string | null; // Profile picture can be a string (URL) or null (if no picture)
 };
 
-export const departments = [
-  "Engineering",
-  "Sales",
-  "Marketing",
-  "Human Resources",
-  "Finance",
-  "Legal",
-  "Operations",
-  "Customer Support",
-  "IT",
-];
+export const departments = ["Engineering", "Sales", "Marketing", "Human Resources", "Finance", "Legal", "Operations", "Customer Support", "IT"];
